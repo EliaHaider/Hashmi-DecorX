@@ -1,0 +1,109 @@
+/* Custom Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+  50% { box-shadow: 0 0 10px 5px rgba(251, 191, 36, 0.7); }
+  100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+.glow-button:hover {
+  animation: glow 1.5s infinite;
+}
+
+/* Tailwind Custom Colors */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-navy-800: #1E293B;
+    --color-navy-900: #0F172A;
+    --color-gold-500: #FBBF24;
+    --color-gold-600: #F59E0B;
+  }
+}
+
+@layer components {
+  .glow-button {
+    @apply bg-gold-500 text-black font-bold px-6 py-3 rounded-lg shadow-md hover:bg-gold-600 transition-all duration-300;
+  }
+  .glow-button.bg-navy-800 {
+    @apply text-white font-bold;
+  }
+  .glow-button.bg-gray-200 {
+    @apply text-black font-bold;
+  }
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .nav-link {
+    font-size: 1rem;
+  }
+  .container {
+    padding: 1rem;
+  }
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  #nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: rgba(30, 41, 59, 0.95);
+    width: 150px;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 0 0 0 1rem;
+  }
+  #nav-links a {
+    margin: 0.5rem 0;
+    text-align: right;
+    color: #F9FAFB; /* Light text for mobile menu */
+  }
+  #productCarousel {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  #prevImage, #nextImage {
+    display: none;
+  }
+}
