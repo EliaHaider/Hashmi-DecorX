@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hashmi DecorX - Custom Laser Order Form">
+  <title>Hashmi DecorX - Order</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    .loading{position:relative;pointer-events:none}
+    .loading::after{content:'';position:absolute;width:20px;height:20px;border:3px solid #f3f3f3;border-top:3px solid #FFD700;border-radius:50%;animation:spin 1s linear infinite;top:50%;left:50%;transform:translate(-50%,-50%)}
+    @keyframes spin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+    .popup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 6px rgba(0,0,0,.1);z-index:1000;animation:fadeIn .3s ease-in}
+    .popup.show{display:block}
+    .popup button{background:#FFD700;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;transition:transform .2s}
+    .popup button:hover{transform:scale(1.05)}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    #totalPrice{color:#065f46;font-weight:700;font-size:1.25rem}
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-roboto">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-transparent transition-all duration-300 z-50 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="../index.html" class="h-12"><img src="../assets/images/logo1.png" alt="Hashmi DecorX Logo" class="h-full"></a>
+      <ul class="hidden md:flex space-x-6" id="nav-links">
+        <li><a href="../index.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">Home</a></li>
+        <li><a href="products.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">Products</a></li>
+        <li><a href="about.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">About</a></li>
+        <li><a href="contact.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Order Form Section -->
+  <section class="py-20" id="order">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold text-navy-800 mb-10 text-center">Order Form</h2>
+      <div class="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <form id="order-form" method="POST" action="https://script.google.com/macros/s/AKfycby2e76nZm9efMQnVYyGsO7EB-fR0Bz32a5Yvq4lcZ9tQOOgY8THPg0_ESc8FqtiFcc/exec">
+          <input type="hidden" id="productId" name="productId">
+
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700">Full Name *</label>
+            <input type="text" id="name" name="name" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter your full name">
+          </div>
+
+          <div class="mb-4">
+            <label for="whatsapp" class="block text-gray-700">WhatsApp Number *</label>
+            <input type="tel" id="whatsapp" name="whatsapp" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter your WhatsApp number">
+          </div>
+
+          <div class="mb-4">
+            <label for="product" class="block text-gray-700">Product Name *</label>
+            <input type="text" id="product" name="product" required class="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
+          </div>
+
+          <div class="mb-4">
+            <label for="quantity" class="block text-gray-700">Quantity *</label>
+            <input type="number" id="quantity" name="quantity" min="1" max="100" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter quantity">
+          </div>
+
+          <div class="mb-4">
+            <label for="city" class="block text-gray-700">City *</label>
+            <input type="text" id="city" name="city" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter your city">
+          </div>
+
+          <div class="mb-4">
+            <label for="nearestLandmark" class="block text-gray-700">Nearest Landmark *</label>
+            <input type="text" id="nearestLandmark" name="nearestLandmark" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter nearest landmark">
+          </div>
+
+          <div class="mb-4">
+            <label for="completeAddress" class="block text-gray-700">Complete Address *</label>
+            <input type="text" id="completeAddress" name="completeAddress" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter complete address">
+          </div>
+
+          <div class="mb-4">
+            <label for="notes" class="block text-gray-700">Additional Message / Custom Notes</label>
+            <textarea id="notes" name="notes" class="w-full p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Enter any additional notes"></textarea>
+          </div>
+
+          <!-- Total Price -->
+          <p id="totalPrice" class="text-center mb-4">Total: Rs. 0</p>
+
+          <button type="submit" id="submit-btn" class="glow-button bg-gold-500 text-black font-bold px-6 py-3 rounded-lg shadow-md hover:bg-gold-600">Submit</button>
+        </form>
+
+        <div id="popup" class="popup">
+          <p id="popup-message">Order Successfully Placed! Delivery charges, estimated delivery time, and total amount will be sent to your WhatsApp shortly.</p>
+          <button id="ok-btn" class="mt-4">OK</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-navy-900 text-white py-10 text-center">
+    <p class="text-sm">Sticker Studio, Radio Pakistan Chowk, Skardu, Pakistan | WhatsApp: +923145987851 | Email: haiderhashmi112201@gmail.com</p>
+    <p class="text-xs mt-4">© 2025 Hashmi DecorX. All Rights Reserved.</p>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    /* Auto-fill product name & live total price */
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('productId');
+      const productInput = document.getElementById('product');
+      const quantityInput = document.getElementById('quantity');
+      const totalPriceEl = document.getElementById('totalPrice');
+      const form = document.getElementById('order-form');
+      const submitBtn = document.getElementById('submit-btn');
+      const popup = document.getElementById('popup');
+      const popupMessage = document.getElementById('popup-message');
+      const okBtn = document.getElementById('ok-btn');
+
+      let unitPrice = 0;
+
+      /* Fill product name & get price */
+      if (productId && products[productId]) {
+        productInput.value = products[productId].title;
+        unitPrice = products[productId].price;
+      }
+
+      /* Calculate total on quantity change */
+      quantityInput.addEventListener('input', () => {
+        const qty = parseInt(quantityInput.value) || 0;
+        totalPriceEl.textContent = `Total: Rs. ${unitPrice * qty}`;
+      });
+      quantityInput.dispatchEvent(new Event('input')); // initial
+
+      /* Form submit handler */
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new URLSearchParams(data).toString(),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+          });
+          const text = await response.text();
+          popupMessage.style.color = "green";
+          popupMessage.textContent = text.includes("Success") ? "Order Successfully Placed! Delivery charges, estimated delivery time, and total amount will be sent to your WhatsApp shortly." : "Server Error: " + text;
+        } catch (error) {
+          popupMessage.style.color = "red";
+          popupMessage.textContent = "Something went wrong: " + error.message;
+        } finally {
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          popup.classList.add('show');
+          form.reset();
+          totalPriceEl.textContent = 'Total: Rs. 0';
+        }
+
+        okBtn.addEventListener('click', () => {
+          popup.classList.remove('show');
+          setTimeout(() => popup.classList.remove('fadeOut'), 300);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

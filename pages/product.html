@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hashmi DecorX - Product Details">
+  <title>Hashmi DecorX - Product</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Lightbox CSS -->
+  <style>
+    .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;align-items:center;justify-content:center}
+    .lightbox img{max-width:90%;max-height:90%;border-radius:8px}
+    .lightbox span{position:absolute; cursor:pointer}
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-roboto">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full bg-transparent transition-all duration-300 z-50 p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="../index.html" class="h-12"><img src="../assets/images/logo1.png" alt="Hashmi DecorX Logo" class="h-full"></a>
+    <ul class="hidden md:flex space-x-6" id="nav-links">
+      <li><a href="../index.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">Home</a></li>
+      <li><a href="products.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">Products</a></li>
+      <li><a href="about.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">About</a></li>
+      <li><a href="contact.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <span id="closeLightbox" class="absolute top-4 right-6 text-white text-3xl cursor-pointer">&times;</span>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- Product Details -->
+<section class="py-20" id="product">
+  <div class="container mx-auto">
+    <h2 class="text-4xl font-bold text-navy-800 mb-10 text-center" id="productTitle"></h2>
+    <div class="flex flex-col md:flex-row gap-10 px-4">
+      <div class="md:w-1/2">
+        <img id="productImage" src="" alt="Product Image" class="w-full h-96 object-cover rounded-xl cursor-pointer">
+        <div class="flex justify-between mt-6 hidden md:flex">
+          <button id="prevImage" class="glow-button bg-gray-200 px-4 py-2 rounded-lg">&larr;</button>
+          <button id="nextImage" class="glow-button bg-gray-200 px-4 py-2 rounded-lg">&rarr;</button>
+        </div>
+      </div>
+
+      <div class="md:w-1/2">
+        <p id="productDescription" class="text-lg text-gray-600 mb-4"></p>
+        <p id="productPrice" class="text-2xl font-bold text-green-600 mb-2"></p>
+
+        <!-- Stock Badge -->
+        <p id="stockBadge" class="text-sm font-semibold mb-4"></p>
+
+        <!-- Buttons (black text) -->
+        <button id="orderNowButton" class="glow-button bg-gold-500 text-black font-bold px-6 py-3 rounded-lg">Order Now</button>
+        <a id="whatsappOrderButton" href="#" target="_blank" class="glow-button bg-navy-800 text-black font-bold px-6 py-3 ml-2 rounded-lg">Order via WhatsApp</a>
+
+        <!-- Reviews -->
+        <div class="mt-8">
+          <h3 class="text-xl font-bold text-navy-800 mb-4">Customer Reviews</h3>
+          <div id="reviews" class="space-y-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-navy-900 text-white py-10 text-center">
+  <p class="text-sm">Sticker Studio, Radio Pakistan Chowk, Skardu, Pakistan | WhatsApp: +923145987851 | Email: haiderhashmi112201@gmail.com</p>
+  <p class="text-xs mt-4">© 2025 Hashmi DecorX. All Rights Reserved.</p>
+</footer>
+
+<script src="../js/script.js"></script>
+<script>
+  /* Lightbox */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  document.getElementById('productImage').addEventListener('click', () => {
+    lightbox.style.display = 'flex';
+    lightboxImg.src = document.getElementById('productImage').src;
+  });
+  document.getElementById('closeLightbox').addEventListener('click', () => lightbox.style.display = 'none');
+  lightbox.addEventListener('click', () => lightbox.style.display = 'none');
+
+  /* Product Logic */
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    if (productId && products[productId]) {
+      const p = products[productId];
+      document.getElementById('productTitle').textContent = p.title;
+      document.getElementById('productDescription').textContent = p.description;
+      document.getElementById('productImage').src = p.images[0];
+      document.getElementById('productPrice').textContent = `Rs. ${p.price}`;
+      document.getElementById('whatsappOrderButton').href = p.whatsappLink;
+      document.getElementById('orderNowButton').onclick = () => window.location.href = `order.html?productId=${productId}`;
+
+      /* Stock Badge */
+      const badge = document.getElementById('stockBadge');
+      badge.textContent = p.stock > 0 ? `In Stock (${p.stock} left)` : 'Out of Stock';
+      badge.className = p.stock ? 'text-green-700 text-sm font-semibold mb-4' : 'text-red-600 text-sm font-semibold mb-4';
+      if (!p.stock) {
+        document.getElementById('orderNowButton').disabled = true;
+        document.getElementById('orderNowButton').classList.add('opacity-50', 'cursor-not-allowed');
+      }
+
+      /* Reviews */
+      const box = document.getElementById('reviews');
+      box.innerHTML = '';
+      if (p.reviews && p.reviews.length) {
+        p.reviews.forEach(r => {
+          box.insertAdjacentHTML('beforeend', `
+            <div class="flex items-center gap-4">
+              <img src="${r.img}" alt="${r.name}" class="w-12 h-12 rounded-full object-cover">
+              <div>
+                <p class="font-semibold">${r.name}<span class="text-xs text-gray-500 ml-1">(${r.city})</span></p>
+                <div class="flex text-yellow-400">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+              </div>
+            </div>
+          `);
+        });
+      } else {
+        box.innerHTML = '<p class="text-sm text-gray-500">No reviews yet.</p>';
+      }
+    }
+  });
+</script>
+</body>
+</html>
