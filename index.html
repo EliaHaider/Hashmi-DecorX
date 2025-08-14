@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hashmi DecorX - Unique laser-cut crafts and personalized gifts.">
+  <title>Hashmi DecorX - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    .animate-slide-up {
+      animation: slideUp 1s ease-in-out forwards;
+    }
+    .bounce {
+      animation: bounce 0.5s ease-in-out forwards;
+    }
+    .bg-gradient-custom {
+      background: linear-gradient(to right, #f9f9f9, #ffffff);
+    }
+  </style>
+</head>
+<body class="bg-gradient-custom text-gray-800 font-roboto">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-transparent transition-all duration-300 z-50" id="nav">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      <a href="index.html" class="h-12"><img src="assets/images/logo1.png" alt="Hashmi DecorX Logo" class="h-full"></a>
+      <div class="md:hidden">
+        <button id="menu-btn" class="text-navy-800 focus:outline-none">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+      <ul class="hidden md:flex space-x-6" id="nav-links">
+        <li><a href="index.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500 transition-colors animate-fade-in">Home</a></li>
+        <li><a href="pages/products.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500 transition-colors animate-fade-in">Products</a></li>
+        <li><a href="pages/about.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500 transition-colors animate-fade-in">About</a></li>
+        <li><a href="pages/contact.html" class="nav-link text-lg font-semibold text-navy-800 hover:text-gold-500 transition-colors animate-fade-in">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="min-h-screen bg-cover bg-center" style="background-image: url('assets/images/background.png'); background-size: cover;" id="hero">
+    <div class="container mx-auto h-full flex items-center justify-center text-center py-16">
+      <div class="bg-white bg-opacity-90 p-10 rounded-xl shadow-lg animate-slide-up">
+        <h1 class="text-5xl font-bold text-navy-800 mb-6 font-poppins">Welcome to Hashmi DecorX</h1>
+        <p class="text-lg text-gray-600 mb-8 font-roboto">Discover unique laser-cut crafts and personalized gifts crafted with passion.</p>
+        <a href="pages/products.html" class="glow-button bg-gold-500 text-black font-bold px-8 py-4 rounded-lg shadow-md hover:bg-gold-600 transition-all duration-300 animate-fade-in">Explore Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-20 bg-gray-100" id="about">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold text-navy-800 mb-8 font-poppins animate-fade-in">About Us</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto font-roboto animate-slide-up">Hashmi DecorX is dedicated to creating high-quality, personalized laser-cut products. From wooden clocks to custom keychains, we bring your ideas to life with precision and care.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-navy-900 text-black py-10" id="footer">
+    <div class="container mx-auto text-center">
+      <p class="text-sm">Sticker Studio, Radio Pakistan Chowk, Skardu, Pakistan | WhatsApp: +923145987851 | Email: haiderhashmi112201@gmail.com</p>
+      <p class="text-sm mt-2">Follow us: <a href="https://www.instagram.com/sticker_studio_skardu/" class="text-gold-400 hover:text-gold-500 transition-colors animate-fade-in">Instagram</a> | <a href="https://www.facebook.com/people/Sticker-Studio-Skardu/61578261728143/" class="text-gold-400 hover:text-gold-500 transition-colors animate-fade-in">Facebook</a></p>
+      <p class="text-xs mt-4">© 2025 Hashmi DecorX. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script>
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('bg-navy-800', 'bg-opacity-90', 'shadow-lg');
+      } else {
+        nav.classList.remove('bg-navy-800', 'bg-opacity-90', 'shadow-lg');
+      }
+    });
+
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('hidden');
+      navLinks.classList.add('animate-slide-down');
+    });
+
+    // Add bounce animation on button click
+    document.querySelectorAll('button, a').forEach(element => {
+      element.addEventListener('click', () => {
+        element.classList.add('bounce');
+        setTimeout(() => element.classList.remove('bounce'), 300);
+      });
+    });
+  </script>
+</body>
+</html>
