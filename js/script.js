@@ -21,6 +21,15 @@ const products = {
     reviews: [],
     whatsappLink: 'https://wa.me/+923145987851?text=I want to order Islamic Calligraphy from Hashmi DecorX'
   },
+  'Custom-Photo-Engraving': {
+    title: 'Custom Photo Engrave',
+    description: 'Engrave Your own Photo or a Design on a Wood',
+    images: ['../assets/images/engrave photo 1.jpg' , '../assets/images/engrave photo 2.jpg', '../assets/images/engrave photo 3.mp4'],
+    price: 550,
+    stock: 3,
+    reviews: [],
+    whatsappLink: 'https://wa.me/+923145987851?text=I want to order Islamic Calligraphy from Hashmi DecorX'
+  },
   'gears-wooden-wall-clock': {
     title: 'Gears-Wooden Wall Clock',
     description: 'Elegant laser-cut Gears Design Wall clock – Stylish Design',
