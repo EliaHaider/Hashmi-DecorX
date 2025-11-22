@@ -12,15 +12,18 @@
     .loading{position:relative;pointer-events:none}
     .loading::after{content:'';position:absolute;width:20px;height:20px;border:3px solid #f3f3f3;border-top:3px solid #FFD700;border-radius:50%;animation:spin 1s linear infinite;top:50%;left:50%;transform:translate(-50%,-50%)}
     @keyframes spin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
-    .popup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 6px rgba(0,0,0,.1);z-index:1000;animation:fadeIn .3s ease-in}
+    .popup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:30px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.2);z-index:1000;max-width:90%;width:380px;text-align:center;animation:fadeIn .4s ease-in}
     .popup.show{display:block}
-    .popup button{background:#FFD700;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;transition:transform .2s}
+    .popup button{background:#25D366;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin:8px;font-weight:600;transition:transform .2s}
     .popup button:hover{transform:scale(1.05)}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    #totalPrice{color:#065f46;font-weight:700;font-size:1.25rem}
+    .popup .ok-btn{background:#FFD700;color:black;}
+    @keyframes fadeIn{from{opacity:0;transform:translate(-50%,-60%)}to{opacity:1;transform:translate(-50%,-50%)}}
+    .price-breakdown{margin-bottom:16px;line-height:1.8;font-size:1.1rem}
+    .green-text{color:#16a34a;font-weight:700}
   </style>
 </head>
 <body class="bg-white text-gray-800 font-roboto">
+
   <!-- Navigation -->
   <nav class="fixed top-0 w-full bg-transparent transition-all duration-300 z-50 p-4">
     <div class="container mx-auto flex justify-between items-center">
@@ -41,56 +44,65 @@
       <div class="max-w-lg mx-auto bg-white p-6 rounded-xl shadow-lg">
         <form id="order-form" method="POST" action="https://script.google.com/macros/s/AKfycby2e76nZm9efMQnVYyGsO7EB-fR0Bz32a5Yvq4lcZ9tQOOgY8THPg0_ESc8FqtiFcc/exec">
           <input type="hidden" id="productId" name="productId">
-
+          
           <div class="mb-4">
             <label for="name" class="block text-gray-700">Full Name *</label>
             <input type="text" id="name" name="name" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter your full name">
           </div>
-
           <div class="mb-4">
             <label for="whatsapp" class="block text-gray-700">WhatsApp Number *</label>
             <input type="tel" id="whatsapp" name="whatsapp" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter your WhatsApp number">
           </div>
-
           <div class="mb-4">
             <label for="product" class="block text-gray-700">Product Name *</label>
             <input type="text" id="product" name="product" required class="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
           </div>
-
           <div class="mb-4">
             <label for="quantity" class="block text-gray-700">Quantity *</label>
-            <input type="number" id="quantity" name="quantity" min="1" max="100" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter quantity">
+            <input type="number" id="quantity" name="quantity" min="1" max="100" value="1" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500">
           </div>
-
           <div class="mb-4">
             <label for="city" class="block text-gray-700">City *</label>
             <input type="text" id="city" name="city" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter your city">
           </div>
-
           <div class="mb-4">
             <label for="nearestLandmark" class="block text-gray-700">Nearest Landmark *</label>
             <input type="text" id="nearestLandmark" name="nearestLandmark" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter nearest landmark">
           </div>
-
           <div class="mb-4">
             <label for="completeAddress" class="block text-gray-700">Complete Address *</label>
             <input type="text" id="completeAddress" name="completeAddress" required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500" placeholder="Enter complete address">
           </div>
-
           <div class="mb-4">
             <label for="notes" class="block text-gray-700">Additional Message / Custom Notes</label>
             <textarea id="notes" name="notes" class="w-full p-2 border border-gray-300 rounded-lg" rows="3" placeholder="Enter any additional notes"></textarea>
           </div>
 
-          <!-- Total Price -->
-          <p id="totalPrice" class="text-center mb-4">Total: Rs. 0</p>
+          <!-- Price Breakdown -->
+          <div class="border-t pt-4 mt-6 text-center text-lg font-medium">
+            <p id="productPriceLine">Product Price: Rs. 0</p>
+            <p class="text-gray-700 mt-2">Delivery Charges: <span class="font-bold">Rs. 230</span></p>
+            <p id="finalTotalLine" class="text-xl font-bold text-green-700 mt-3">Total: Rs. 230</p>
+          </div>
 
-          <button type="submit" id="submit-btn" class="glow-button bg-gold-500 text-black font-bold px-6 py-3 rounded-lg shadow-md hover:bg-gold-600">Submit</button>
+          <button type="submit" id="submit-btn" class="glow-button mt-6 w-full bg-gold-500 text-black font-bold px-6 py-4 rounded-lg shadow-md hover:bg-gold-600 text-xl">Submit Order</button>
         </form>
 
+        <!-- Success Popup -->
         <div id="popup" class="popup">
-          <p id="popup-message">Order Successfully Placed! Delivery charges, estimated delivery time, and total amount will be sent to your WhatsApp shortly.</p>
-          <button id="ok-btn" class="mt-4">OK</button>
+          <h3 class="text-2xl font-bold mb-4">Order Successfully Placed!</h3>
+          <div class="price-breakdown">
+            <p>Product Amount: <span id="popupProductPrice" class="green-text">Rs. 0</span></p>
+            <p>Delivery: <span class="font-bold">230 RS</span></p>
+            <p>Total Amount: <span id="popupTotalPrice" class="green-text text-2xl">Rs. 230</span></p>
+          </div>
+          <div class="mt-6 flex flex-col gap-3">
+            <button id="ok-btn" class="ok-btn">OK</button>
+            <button id="whatsapp-btn">
+              <svg class="inline w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+              Chat on WhatsApp
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -103,35 +115,46 @@
 
   <script src="../js/script.js"></script>
   <script>
-    /* Auto-fill product name & live total price */
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const productId = urlParams.get('productId');
       const productInput = document.getElementById('product');
       const quantityInput = document.getElementById('quantity');
-      const totalPriceEl = document.getElementById('totalPrice');
+      const productPriceLine = document.getElementById('productPriceLine');
+      const finalTotalLine = document.getElementById('finalTotalLine');
+      const popupProductPrice = document.getElementById('popupProductPrice');
+      const popupTotalPrice = document.getElementById('popupTotalPrice');
+      
       const form = document.getElementById('order-form');
       const submitBtn = document.getElementById('submit-btn');
       const popup = document.getElementById('popup');
-      const popupMessage = document.getElementById('popup-message');
       const okBtn = document.getElementById('ok-btn');
+      const whatsappBtn = document.getElementById('whatsapp-btn');
 
+      const DELIVERY_CHARGE = 230;
       let unitPrice = 0;
+      let currentTotal = 0;
 
-      /* Fill product name & get price */
+      // Fill product & price
       if (productId && products[productId]) {
         productInput.value = products[productId].title;
         unitPrice = products[productId].price;
       }
 
-      /* Calculate total on quantity change */
-      quantityInput.addEventListener('input', () => {
-        const qty = parseInt(quantityInput.value) || 0;
-        totalPriceEl.textContent = `Total: Rs. ${unitPrice * qty}`;
-      });
-      quantityInput.dispatchEvent(new Event('input')); // initial
+      // Update prices function
+      function updatePrices() {
+        const qty = parseInt(quantityInput.value) || 1;
+        const productTotal = unitPrice * qty;
+        currentTotal = productTotal + DELIVERY_CHARGE;
 
-      /* Form submit handler */
+        productPriceLine.textContent = `Product Price: Rs. ${productTotal}`;
+        finalTotalLine.textContent = `Total: Rs. ${currentTotal}`;
+      }
+
+      quantityInput.addEventListener('input', updatePrices);
+      updatePrices(); // initial
+
+      // Form Submit
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         submitBtn.classList.add('loading');
@@ -147,23 +170,40 @@
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
           });
           const text = await response.text();
-          popupMessage.style.color = "green";
-          popupMessage.textContent = text.includes("Success") ? "Order Successfully Placed! Delivery charges, estimated delivery time, and total amount will be sent to your WhatsApp shortly." : "Server Error: " + text;
+
+          if (text.includes("Success")) {
+            // Update popup with actual amounts
+            const qty = parseInt(quantityInput.value) || 1;
+            const productAmount = unitPrice * qty;
+            const total = productAmount + DELIVERY_CHARGE;
+
+            popupProductPrice.textContent = `Rs. ${productAmount}`;
+            popupTotalPrice.textContent = `Rs. ${total}`;
+
+            // WhatsApp button - direct message with total
+            whatsappBtn.onclick = () => {
+              const message = encodeURIComponent(`Hello! I just placed an order.\nTotal Amount: Rs. ${total} (including delivery)`);
+              window.open(`https://wa.me/923555269282?text=${message}`, '_blank');
+            };
+
+            popup.classList.add('show');
+          } else {
+            alert("Error: " + text);
+          }
         } catch (error) {
-          popupMessage.style.color = "red";
-          popupMessage.textContent = "Something went wrong: " + error.message;
+          alert("Network error: " + error.message);
         } finally {
           submitBtn.classList.remove('loading');
           submitBtn.disabled = false;
-          popup.classList.add('show');
           form.reset();
-          totalPriceEl.textContent = 'Total: Rs. 0';
+          quantityInput.value = 1;
+          updatePrices();
         }
+      });
 
-        okBtn.addEventListener('click', () => {
-          popup.classList.remove('show');
-          setTimeout(() => popup.classList.remove('fadeOut'), 300);
-        });
+      // Close popup
+      okBtn.addEventListener('click', () => {
+        popup.classList.remove('show');
       });
     });
   </script>
